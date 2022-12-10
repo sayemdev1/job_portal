@@ -99,8 +99,6 @@ if (isset($_SESSION['loggedin']) && isset($_SESSION['id'])) {
 				<div class="col-lg-9 pr-lg-4">
 					<div class="row">
 						<?php
-
-
                         if (isset($_POST['submit2'])) {
 
 	                        $where = "";
@@ -158,13 +156,14 @@ if (isset($_SESSION['loggedin']) && isset($_SESSION['id'])) {
 	                        $num = mysqli_num_rows(mysqli_query($con, "select * from candidates where job_id='$jId' and candidate_id='$id'"));
 
 	                        if ($num < 1) { ?>
-									<a href="job-single.php?id=<?php echo $result['id'] ?>"
+									<a href="job-single.php?id=<?php echo $result['jid'] ?>"
 										class="btn btn-primary py-2">Apply Job</a>
 									<?php
 	                        } else {
 
                                     ?>
-									<div><button disabled class="form-control btn btn-primary">Applied</button></div>
+									<a href="job-single.php?id=<?php echo $result['jid'] ?>"
+										class="btn btn-primary py-2">View Job</a>
 									<?php
 	                        }
 

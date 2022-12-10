@@ -52,7 +52,7 @@ if (isset($_SESSION['admin']) && isset($_SESSION['aid'])) {
 
   <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
     <div class="container-fluid px-md-4	">
-      <a class="navbar-brand" href="index.html">JOB-PORTAL</a>
+      <a class="navbar-brand" href="index.php">JOB-PORTAL</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
         aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="oi oi-menu"></span> Menu
@@ -60,8 +60,8 @@ if (isset($_SESSION['admin']) && isset($_SESSION['aid'])) {
 
       <div class="collapse navbar-collapse" id="ftco-nav">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item"><a href="home.php" class="nav-link">Home</a></li>
-          <li class="nav-item"><a href="browsejobs.php" class="nav-link">Browse Jobs</a></li>
+          <li class="nav-item"><a href="index.php" class="nav-link">Home</a></li>
+          <li class="nav-item"><a href="browsejobs.php" class="nav-link">My Jobs</a></li>
           <li class="nav-item"><a href="candidates.php" class="nav-link">Canditates</a></li>
           <li class="nav-item cta mr-md-1"><a href="new-post.php" class="nav-link">Post a Job</a></li>
           <li class="nav-item cta cta-colored"><a href="logout.php" class="nav-link">Signout</a></li>
@@ -85,7 +85,7 @@ if (isset($_SESSION['admin']) && isset($_SESSION['aid'])) {
     <div class="container">
       <div class="row no-gutters slider-text align-items-end justify-content-start">
         <div class="col-md-12 ftco-animate text-center mb-5">
-          <p class="breadcrumbs mb-0"><span class="mr-3"><a href="index.html">Home <i
+          <p class="breadcrumbs mb-0"><span class="mr-3"><a href="index.php">Home <i
                   class="ion-ios-arrow-forward"></i></a></span> <span class="mr-3"><a href="browsejobs.php">Jobs <i
                   class="ion-ios-arrow-forward"></i></a></span> <span>Job Details</span></p>
           <h1 class="mb-3 bread">
@@ -172,7 +172,7 @@ if (isset($_SESSION['admin']) && isset($_SESSION['aid'])) {
             <div class="col-md-12">
               <div class="team d-md-flex p-4 bg-white">
                 <center>
-                  <div class="img" style="background-image: url(<?php echo $result['profile'] ?>);"></div>
+                  <div class="img" style="background-image: url(../<?php echo $result['profile'] ?>);"></div>
                 </center>
                 <div class="text pl-md-4">
                   <span class="location mb-0">

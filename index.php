@@ -341,103 +341,77 @@ if (isset($_SESSION['loggedin']) && isset($_SESSION['id'])) {
 		</div>
 	</section>
 
+
 	<section class="ftco-section bg-light">
 		<div class="container">
-			<div class="row justify-content-center mb-5">
-				<div class="col-md-7 heading-section text-center ftco-animate">
-					<h2 class="mb-0">All Jobs</h2>
-				</div>
-			</div>
-			<div class="container">
-				<div class="row justify-content-center mb-12">
-					<div class="col-lg-12 pr-lg-4">
-						<div class="row">
-							<?php
-
-
-                            if (isset($_POST['submit2'])) {
-
-	                            $where = "";
-
-	                            $location = $_POST['location'];
-	                            $keyword = $_POST['keyword'];
-	                            $job_type = $_POST['job_type'];
-
-	                            if ($keyword != null && $location != null && $job_type != null) {
-		                            $where = "where jobs.title=" . "'$keyword'" . " and location like " . "'%$location%'" . " and job_type.title = " . "'$job_type'";
-	                            }
-
-
-	                            $sql = "SELECT jobs.id,jobs.title,description,category,experience,salary,name as companyName,location,job_type.title as jobType FROM `jobs` INNER JOIN companies ON companies.id=jobs.company INNER JOIN job_type ON job_type.id=jobs.type " . $where;
-	                            $query = mysqli_query(
-	                            	$con,
-	                            	$sql
-	                            );
-
-	                            // echo $sql;
-                            
-                            } else {
-	                            $query = mysqli_query($con, "SELECT jobs.id as jid,jobs.title,description,category,experience,salary,name as companyName,location,job_type.title as jobType FROM `jobs` INNER JOIN companies ON companies.id=jobs.company INNER JOIN job_type ON job_type.id=jobs.type");
-                            }
+			<div class="row">
+				<div class="col-lg-12 pr-lg-4">
+					<div class="row">
+						<?php
+                    
+					
+					$query = mysqli_query($con, "SELECT jobs.id as jid,jobs.title,description,category,experience,salary,name as companyName,location,job_type.title as jobType FROM `jobs` INNER JOIN companies ON companies.id=jobs.company INNER JOIN job_type ON job_type.id=jobs.type");
+                        
 
 
 
-                            while ($result = mysqli_fetch_assoc($query)) {
-                            ?>
-							<div class="col-md-12 ftco-animate">
-								<div class="job-post-item p-4 d-block d-lg-flex align-items-center">
-									<div class="one-third mb-4 mb-md-0">
-										<div class="job-post-item-header align-items-center">
-											<span class="subadge">
-												<?php echo $result['jobType'] ?>
-											</span>
-											<h2 class="mr-3 text-black"><a href="#">
-													<?php echo $result['title'] ?>
-												</a></h2>
+                        while ($result = mysqli_fetch_assoc($query)) {
+                        ?>
+						<div class="col-md-12 ftco-animate">
+							<div class="job-post-item p-4 d-block d-lg-flex align-items-center">
+								<div class="one-third mb-4 mb-md-0">
+									<div class="job-post-item-header align-items-center">
+										<span class="subadge">
+											<?php echo $result['jobType'] ?>
+										</span>
+										<h2 class="mr-3 text-black"><a href="#">
+												<?php echo $result['title'] ?>
+											</a></h2>
 
-										</div>
-										<div class="job-post-item-body d-block d-md-flex">
-											<div class="mr-3"><span class="icon-layers"></span> <a href="#">
-													<?php echo $result['companyName'] ?>
-												</a></div>
-											<div><span class="icon-my_location"></span> <span>
-													<?php echo $result['location'] ?>
-												</span></div>
-										</div>
 									</div>
-
-									<div class="one-forth ml-auto d-flex align-items-center mt-4 md-md-0">
-										<?php
-	                            $jId = $result['jid'];
-	                            $num = mysqli_num_rows(mysqli_query($con, "select * from candidates where job_id='$jId' and candidate_id='$id'"));
-
-	                            if ($num < 1) { ?>
-										<a href="job-single.php?id=<?php echo $result['jid'] ?>"
-											class="btn btn-primary py-2">Apply Job</a>
-										<?php
-	                            } else {
-
-                                        ?>
-										<div><button disabled class="form-control btn btn-primary">Applied</button>
-										</div>
-										<?php
-	                            }
-
-                                        ?>
+									<div class="job-post-item-body d-block d-md-flex">
+										<div class="mr-3"><span class="icon-layers"></span> <a href="#">
+												<?php echo $result['companyName'] ?>
+											</a></div>
+										<div><span class="icon-my_location"></span> <span>
+												<?php echo $result['location'] ?>
+											</span></div>
 									</div>
 								</div>
-							</div><!-- end -->
-							<?php
-                            }
 
-                            ?>
-						</div>
+								<div class="one-forth ml-auto d-flex align-items-center mt-4 md-md-0">
+									<?php
+	                        $jId = $result['jid'];
+	                        $num = mysqli_num_rows(mysqli_query($con, "select * from candidates where job_id='$jId' and candidate_id='$id'"));
 
+	                        if ($num < 1) { ?>
+									<a href="job-single.php?id=<?php echo $result['jid'] ?>"
+										class="btn btn-primary py-2">Apply Job</a>
+									<?php
+	                        } else {
+
+                                    ?>
+									<a href="job-single.php?id=<?php echo $result['jid'] ?>"
+										class="btn btn-primary py-2">View Job</a>
+									<?php
+	                        }
+
+                                    ?>
+
+								</div>
+							</div>
+						</div><!-- end -->
+						<?php
+                        }
+
+                        ?>
 					</div>
+
 				</div>
 			</div>
 		</div>
 	</section>
+
 
 	<!-- loader -->
 	<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px">

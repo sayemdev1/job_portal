@@ -93,7 +93,7 @@ if (isset($_SESSION['admin']) && isset($_SESSION['aid'])) {
                         ?>
 						<div class="col-md-12">
 							<div class="team d-md-flex p-4 bg-white">
-								<div class="img" style="background-image: url(<?php echo $result['profile'] ?>);"></div>
+								<div class="img" style="background-image: url(../<?php echo $result['profile'] ?>);"></div>
 								<div class="text pl-md-4">
 									<span class="location mb-0">
 										<?php echo $result['location'] ?>
@@ -107,7 +107,7 @@ if (isset($_SESSION['admin']) && isset($_SESSION['aid'])) {
 									<p class="mb-2">
 										<?php echo $result['about'] ?>
 									</p>
-									<p><a href="shortlist.php" class="btn btn-primary">Shortlist</a></p>
+									<!-- <p><a href="shortlist.php" class="btn btn-primary">Shortlist</a></p> -->
 								</div>
 							</div>
 						</div>
