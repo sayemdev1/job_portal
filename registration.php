@@ -1,4 +1,5 @@
 <?php
+
 include "php/conn.php";
 if (isset($_POST['submit'])) {
   $name = $_POST['name'];
@@ -10,24 +11,33 @@ if (isset($_POST['submit'])) {
   $location = $_POST['location'];
   $experience = $_POST['experience'];
   $success = "";
+  $uid2 = microtime();
   $target_dir = "images/";
-  $target_file = $target_dir . basename($_FILES["profile"]["name"]);
-  $uploadOk = 1;
-  $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+  $target_file = $target_dir .$uid2.".png";
+  $target_file=str_replace(" ", "_", $target_file);
   $check = getimagesize($_FILES["profile"]["tmp_name"]);
   if ($check !== false) {
     move_uploaded_file($_FILES["profile"]["tmp_name"], $target_file);
   }
-  $query = "INSERT INTO `user` (`name`, `email`, `phone`, `password`, `profile`, `about`, `location`, `experience`) 
-  VALUES ('$name', '$email', '$phone', '$password', '$target_file', '$about', '$location', '$experience')";
+  $uid = microtime();
+  $target_resume_file =  $uid.".pdf";
+  $file_tmp = $_FILES['resume']['tmp_name'];
+  if (isset($file_tmp)) {
+    move_uploaded_file($file_tmp, "images/".$target_resume_file);
+  }
+
+  $query = "INSERT INTO `user` (`name`, `email`, `phone`, `password`, `profile`,`resume`, `about`, `location`, `experience`) 
+  VALUES ('$name', '$email', '$phone', '$password', '$target_file','$target_resume_file', '$about', '$location', '$experience')";
   if (mysqli_query($con, $query)) {
     $success = "Registration successfull";
     $id = $con->insert_id;
+    session_start();
     $_SESSION['loggedin'] = true;
-    $_SESSION['id'] = $data['id'];
+    $_SESSION['id'] = $id;
     header('Location: index.php');
   } else {
-    $success = "Registration failed";
+    $success = $query."Registration failed".mysqli_error($con);
+    
   }
 
 }
@@ -108,29 +118,40 @@ if (isset($_POST['submit'])) {
           class="bg-white p-5 contact-form">
           <h3 class="form-group">Register here</h3>
           <div class="form-group">
-            <input type="text" class="form-control" placeholder="Enter Name" name="name">
+            <label class="font-weight-bold" for="name">Name</label>
+            <input type="text" class="form-control" placeholder="Enter Name" id="name" name="name">
           </div>
           <div class="form-group">
+            <label class="font-weight-bold" for="fullname">Email</label>
             <input type="email" class="form-control" placeholder="Enter Email" name="email">
           </div>
           <div class="form-group">
+            <label class="font-weight-bold" for="fullname">Phone</label>
             <input type="tel" class="form-control" placeholder="Enter phone" name="phone">
           </div>
 
           <div class="form-group">
-            <textarea name="experience" id="" cols="30" rows="7" class="form-control"
-              placeholder="Enter experience fields"></textarea>
+            <label class="font-weight-bold" for="fullname">Experience</label>
+            <textarea name="experience" id="" class="form-control" placeholder="Enter experience fields"></textarea>
           </div>
           <div class="form-group">
+            <label class="font-weight-bold" for="fullname">About</label>
             <textarea name="about" id="" cols="30" rows="7" class="form-control" placeholder="Enter about"></textarea>
           </div>
           <div class="form-group">
+            <label class="font-weight-bold" for="fullname">Address</label>
             <textarea name="location" id="" cols="30" rows="7" class="form-control"
               placeholder="Enter address"></textarea>
           </div>
 
           <div class="form-group">
+            <label class="font-weight-bold" for="fullname">Upload Profile Picture</label>
             <input type="file" accept="image/*" class="form-control" placeholder="Select image" name="profile">
+          </div>
+
+          <div class="form-group">
+            <label class="font-weight-bold" for="fullname">Upload Resume</label>
+            <input type="file" accept="pdf" class="form-control" placeholder="Select resume" name="resume">
           </div>
 
           <div class="form-group">

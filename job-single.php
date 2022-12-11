@@ -93,6 +93,16 @@ if (isset($_POST['login'])) {
 
   $query = mysqli_query($con, "SELECT companies.address as address,jobs.id,jobs.deadline,jobs.title,description,category,experience,salary,name as companyName,companies.logo,companies.about,location,job_type.title as jobType FROM `jobs` INNER JOIN companies ON companies.id=jobs.company INNER JOIN job_type ON job_type.id=jobs.type where jobs.id='$id'");
   $result = mysqli_fetch_assoc($query);
+    $sort='';
+  if($loggedin==true){
+    $q = mysqli_query($con,"select * from candidates where job_id='$id' and candidate_id='$uid'");
+
+    $data = mysqli_fetch_assoc($q);
+    if($data['status']==1){
+      $sort = "[Shortlisted]";
+    }
+
+  }
 
   ?>
 
@@ -102,7 +112,7 @@ if (isset($_POST['login'])) {
     <div class="container">
       <div class="row no-gutters slider-text align-items-end justify-content-start">
         <div class="col-md-12 ftco-animate text-center mb-5">
-          <p class="breadcrumbs mb-0"><span class="mr-3"><a href="index.html">Home <i
+          <p class="breadcrumbs mb-0"><span class="mr-3"><a href="index.php">Home <i
                   class="ion-ios-arrow-forward"></i></a></span> <span class="mr-3"><a href="browsejobs.php">Jobs <i
                   class="ion-ios-arrow-forward"></i></a></span> <span>Job Details</span></p>
           <h1 class="mb-3 bread">
@@ -118,7 +128,7 @@ if (isset($_POST['login'])) {
       <div class="row">
         <div class="col-md-8 ftco-animate">
           <h2 class="mb-3">
-            <?php echo $result['title'] ?>
+            <?php echo $result['title'].$sort ?>
           </h2>
           <p>
             <?php echo $result['description'] ?>

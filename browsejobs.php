@@ -127,6 +127,16 @@ if (isset($_SESSION['loggedin']) && isset($_SESSION['id'])) {
 
 
                         while ($result = mysqli_fetch_assoc($query)) {
+	                        $jid = $result['jid'];
+							$sort='';
+							if($loggedin==true){
+							  $q = mysqli_query($con,"select * from candidates where job_id='$jid' and candidate_id='$id'");
+							  $data = mysqli_fetch_assoc($q);
+							  if($data['status']==1){
+								$sort = "[Shortlisted]";
+							  }
+						  
+							}
                         ?>
 						<div class="col-md-12 ftco-animate">
 							<div class="job-post-item p-4 d-block d-lg-flex align-items-center">
@@ -136,7 +146,7 @@ if (isset($_SESSION['loggedin']) && isset($_SESSION['id'])) {
 											<?php echo $result['jobType'] ?>
 										</span>
 										<h2 class="mr-3 text-black"><a href="#">
-												<?php echo $result['title'] ?>
+												<?php echo $result['title'].$sort ?>
 											</a></h2>
 
 									</div>
@@ -153,14 +163,15 @@ if (isset($_SESSION['loggedin']) && isset($_SESSION['id'])) {
 								<div class="one-forth ml-auto d-flex align-items-center mt-4 md-md-0">
 									<?php
 	                        $jId = $result['jid'];
-	                        $num = mysqli_num_rows(mysqli_query($con, "select * from candidates where job_id='$jId' and candidate_id='$id'"));
+	                        $q = mysqli_query($con, "select * from candidates where job_id='$jId' and candidate_id='$id'");
+	                        $num = mysqli_num_rows($q);
+
 
 	                        if ($num < 1) { ?>
 									<a href="job-single.php?id=<?php echo $result['jid'] ?>"
 										class="btn btn-primary py-2">Apply Job</a>
 									<?php
 	                        } else {
-
                                     ?>
 									<a href="job-single.php?id=<?php echo $result['jid'] ?>"
 										class="btn btn-primary py-2">View Job</a>
